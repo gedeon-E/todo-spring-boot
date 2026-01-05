@@ -16,4 +16,10 @@ public interface TodoRepository extends JpaRepository<Todo,Long> {
     
     @Query("SELECT t FROM Todo t WHERE t.id = ?1 AND t.deletedAt IS NULL")
     Optional<Todo> findByIdNotDeleted(Long id);
+    
+    @Query("SELECT t FROM Todo t WHERE t.user.id = ?1 AND t.deletedAt IS NULL")
+    List<Todo> findAllByUserIdNotDeleted(Long userId);
+    
+    @Query("SELECT t FROM Todo t WHERE t.id = ?1 AND t.user.id = ?2 AND t.deletedAt IS NULL")
+    Optional<Todo> findByIdAndUserIdNotDeleted(Long id, Long userId);
 }

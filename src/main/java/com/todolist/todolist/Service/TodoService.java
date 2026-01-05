@@ -7,8 +7,8 @@ import com.todolist.todolist.Json.Todo.UpdateTodoRequest;
 import java.util.List;
 
 public interface TodoService {
-    Todo createTodo(BasicTodo basicTodo);
-    List<Todo> getAllTodos();
-    Todo updateTodo(Long id, UpdateTodoRequest updateTodo);
-    void deleteTodo(Long id);
+    Todo createTodo(BasicTodo basicTodo, Long userId);
+    List<Todo> getAllTodosOfUser(Long userId);
+    Todo updateTodo(Long id, UpdateTodoRequest updateTodo, Long userId);
+    void deleteTodo(Long id, Long userId);
 }

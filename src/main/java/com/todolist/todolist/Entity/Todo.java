@@ -32,6 +32,10 @@ public class Todo {
     @Column(name="deleted_at")
     private LocalDateTime deletedAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     @PrePersist
     protected void onCreate (){
         this.createdAt = LocalDateTime.now();
