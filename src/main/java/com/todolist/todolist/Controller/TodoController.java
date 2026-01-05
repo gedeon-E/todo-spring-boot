@@ -1,8 +1,8 @@
 package com.todolist.todolist.Controller;
 
 import com.todolist.todolist.Entity.Todo;
-import com.todolist.todolist.Json.BasicTodo;
-import com.todolist.todolist.Json.UpdateTodo;
+import com.todolist.todolist.Json.Todo.BasicTodo;
+import com.todolist.todolist.Json.Todo.UpdateTodoRequest;
 import com.todolist.todolist.Service.TodoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class TodoController {
     }
 
     @PutMapping("/{id}")
-    public Todo updateTodo(@PathVariable Long id, @RequestBody UpdateTodo updateTodo){
+    public Todo updateTodo(@PathVariable Long id, @RequestBody UpdateTodoRequest updateTodo){
         return todoService.updateTodo(id, updateTodo);
     }
 

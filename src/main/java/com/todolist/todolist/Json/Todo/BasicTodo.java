@@ -1,4 +1,4 @@
-package com.todolist.todolist.Json;
+package com.todolist.todolist.Json.Todo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package com.todolist.todolist.Json;
+package com.todolist.todolist.Json.Todo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class UpdateTodo {
+public class UpdateTodoRequest {
      String description;
      String note;
      
