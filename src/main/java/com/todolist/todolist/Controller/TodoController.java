@@ -2,7 +2,9 @@ package com.todolist.todolist.Controller;
 
 import com.todolist.todolist.Entity.Todo;
 import com.todolist.todolist.Json.BasicTodo;
+import com.todolist.todolist.Json.UpdateTodo;
 import com.todolist.todolist.Service.TodoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +22,17 @@ public class TodoController {
     }
 
     @PostMapping
-    public Todo createTodo(@RequestBody BasicTodo basicTodo){
+    public Todo createTodo(@Valid @RequestBody BasicTodo basicTodo){
         return todoService.createTodo(basicTodo);
+    }
+
+    @PutMapping("/{id}")
+    public Todo updateTodo(@PathVariable Long id, @RequestBody UpdateTodo updateTodo){
+        return todoService.updateTodo(id, updateTodo);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteTodo(@PathVariable Long id){
+        todoService.deleteTodo(id);
     }
 }

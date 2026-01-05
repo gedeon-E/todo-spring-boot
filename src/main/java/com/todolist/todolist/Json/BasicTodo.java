@@ -1,6 +1,8 @@
 package com.todolist.todolist.Json;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,8 +12,11 @@ import java.time.LocalDateTime;
 @Setter
 public class BasicTodo {
      String description;
+
+     @NotBlank(message = "La note est obligatoire")
      String note;
      
+     @NotNull(message = "La date finale est obligatoire")
      @JsonFormat(pattern = "yyyy-MM-dd:HH:mm:ss")
      LocalDateTime finalDate;
 }

@@ -2,6 +2,7 @@ package com.todolist.todolist.Service.Impl;
 
 import com.todolist.todolist.Entity.Todo;
 import com.todolist.todolist.Json.BasicTodo;
+import com.todolist.todolist.Json.UpdateTodo;
 import com.todolist.todolist.Repository.TodoRepository;
 import com.todolist.todolist.Service.TodoService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,32 @@ public class TodoServiceImpl implements TodoService {
     }
 
     public List<Todo> getAllTodos(){
-        return todoRepository.findAll();
+        return todoRepository.findAllNotDeleted();
+    }
+
+    public Todo updateTodo(Long id, UpdateTodo updateTodo){
+        Todo todo = todoRepository.findByIdNotDeleted(id)
+                .orElseThrow(() -> new RuntimeException("Todo non trouvé ou déjà supprimé"));
+        
+        if (updateTodo.getNote() != null) {
+            todo.setNote(updateTodo.getNote());
+        }
+        if (updateTodo.getDescription() != null) {
+            todo.setDescription(updateTodo.getDescription());
+        }
+        if (updateTodo.getFinalDate() != null) {
+            todo.setFinalDate(updateTodo.getFinalDate());
+        }
+        
+        return todoRepository.save(todo);
+    }
+
+    public void deleteTodo(Long id){
+        Todo todo = todoRepository.findByIdNotDeleted(id)
+                .orElseThrow(() -> new RuntimeException("Todo non trouvé ou déjà supprimé"));
+        
+        todo.setDeletedAt(java.time.LocalDateTime.now());
+        todoRepository.save(todo);
     }
 
 }
