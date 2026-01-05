@@ -18,20 +18,19 @@ public class Todo {
     private Long id;
 
     @Column(nullable = false)
-    private String description;
-
-    @Column(columnDefinition = "TEXT")
     private String note;
 
-    @Column(name="final_date",nullable=false)
+    @Column(columnDefinition = "TEXT")
+    private String description;
+
+    @Column(name="final_date", nullable=false)
     private LocalDateTime finalDate;
 
     @Column(name="created_at",nullable=false)
     private LocalDateTime createdAt;
 
-//    @PrePersist
-//    protected void onCreate (){
-//        this.createdAt = LocalDateTime.now();
-//    }
-
+    @PrePersist
+    protected void onCreate (){
+        this.createdAt = LocalDateTime.now();
+    }
 }
