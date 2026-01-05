@@ -47,14 +47,14 @@ public class TodoConverter {
         
         BasicUser basicUser = userConverter.convertUserToBasicUser(todo.getUser());
         
-        return new BasicTodo(
-                todo.getId(),
-                todo.getDescription(),
-                todo.getNote(),
-                todo.getFinalDate(),
-                todo.getCreatedAt(),
-                basicUser
-        );
+        BasicTodo basicTodo = new BasicTodo();
+        basicTodo.setId(todo.getId());
+        basicTodo.setDescription(todo.getDescription());
+        basicTodo.setNote(todo.getNote());
+        basicTodo.setFinalDate(todo.getFinalDate());
+        basicTodo.setCreatedAt(todo.getCreatedAt());
+        basicTodo.setUser(basicUser);
+        return basicTodo;
     }
     
     /**BasicTodo

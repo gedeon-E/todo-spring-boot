@@ -3,6 +3,7 @@ package com.todolist.todolist.Json.Todo;
 import com.todolist.todolist.Json.User.BasicUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class BasicTodo {
     Long id;
     String description;
