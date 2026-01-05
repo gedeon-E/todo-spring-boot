@@ -1,5 +1,6 @@
 package com.todolist.todolist.Service.Impl;
 
+import com.todolist.todolist.Converter.UserConverter;
 import com.todolist.todolist.Entity.User;
 import com.todolist.todolist.Json.Login.LoginRequest;
 import com.todolist.todolist.Json.User.UpdateUserRequest;
@@ -27,6 +28,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
+    private final UserConverter userConverter;
 
     @Override
     public BasicUser createUser(CreateUserRequest request) {
@@ -47,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
         user = userRepository.save(user);
 
-        return mapToUserResponse(user);
+        return userConverter.convertUserToBasicUser(user);
     }
 
     @Override
@@ -71,7 +73,7 @@ public class UserServiceImpl implements UserService {
     public List<BasicUser> getAllUsers() {
         return userRepository.findAllNotDeleted()
                 .stream()
-                .map(this::mapToUserResponse)
+                .map(userConverter::convertUserToBasicUser)
                 .collect(Collectors.toList());
     }
 
@@ -80,7 +82,7 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByIdNotDeleted(id)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
 
-        return mapToUserResponse(user);
+        return userConverter.convertUserToBasicUser(user);
     }
 
     @Override
@@ -118,7 +120,7 @@ public class UserServiceImpl implements UserService {
 
         user = userRepository.save(user);
 
-        return mapToUserResponse(user);
+        return userConverter.convertUserToBasicUser(user);
     }
 
     @Override
@@ -128,17 +130,6 @@ public class UserServiceImpl implements UserService {
 
         user.setDeletedAt(LocalDateTime.now());
         userRepository.save(user);
-    }
-
-    private BasicUser mapToUserResponse(User user) {
-        return new BasicUser(
-                user.getId(),
-                user.getFirstname(),
-                user.getLastname(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getCreatedAt()
-        );
     }
 }
 

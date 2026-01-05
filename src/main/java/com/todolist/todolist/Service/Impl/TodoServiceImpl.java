@@ -1,7 +1,9 @@
 package com.todolist.todolist.Service.Impl;
 
+import com.todolist.todolist.Converter.TodoConverter;
 import com.todolist.todolist.Entity.Todo;
 import com.todolist.todolist.Entity.User;
+import com.todolist.todolist.Json.Todo.CreateTodoRequest;
 import com.todolist.todolist.Json.Todo.BasicTodo;
 import com.todolist.todolist.Json.Todo.UpdateTodoRequest;
 import com.todolist.todolist.Repository.TodoRepository;
@@ -19,28 +21,32 @@ public class TodoServiceImpl implements TodoService {
     
     private final TodoRepository todoRepository;
     private final UserRepository userRepository;
+    private final TodoConverter todoConverter;
 
     @Override
-    public Todo createTodo(BasicTodo basicTodo, Long userId){
+    public BasicTodo createTodo(CreateTodoRequest createTodoRequest, Long userId){
         User user = userRepository.findByIdNotDeleted(userId)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
         
         Todo todo = new Todo();
-        todo.setNote(basicTodo.getNote());
-        todo.setDescription(basicTodo.getDescription());
-        todo.setFinalDate(basicTodo.getFinalDate());
+        todo.setNote(createTodoRequest.getNote());
+        todo.setDescription(createTodoRequest.getDescription());
+        todo.setFinalDate(createTodoRequest.getFinalDate());
         todo.setUser(user);
 
-        return todoRepository.save(todo);
+        Todo savedTodo = todoRepository.save(todo);
+        
+        return todoConverter.convertTodoToBasicTodo(savedTodo);
     }
 
     @Override
-    public List<Todo> getAllTodosOfUser(Long userId){
-        return todoRepository.findAllByUserIdNotDeleted(userId);
+    public List<BasicTodo> getAllTodosOfUser(Long userId){
+        List<Todo> todos = todoRepository.findAllByUserIdNotDeleted(userId);
+        return todoConverter.convertTodosToBasicTodos(todos);
     }
 
     @Override
-    public Todo updateTodo(Long id, UpdateTodoRequest updateTodo, Long userId){
+    public BasicTodo updateTodo(Long id, UpdateTodoRequest updateTodo, Long userId){
         Todo todo = todoRepository.findByIdAndUserIdNotDeleted(id, userId)
                 .orElseThrow(() -> new RuntimeException("Todo non trouvé ou vous n'avez pas la permission de le modifier"));
         
@@ -54,7 +60,9 @@ public class TodoServiceImpl implements TodoService {
             todo.setFinalDate(updateTodo.getFinalDate());
         }
         
-        return todoRepository.save(todo);
+        Todo updatedTodo = todoRepository.save(todo);
+        
+        return todoConverter.convertTodoToBasicTodo(updatedTodo);
     }
 
     @Override
