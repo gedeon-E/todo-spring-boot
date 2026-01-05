@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <!-- Parent POM Spring Boot: Fournit la configuration de base pour tous les projets Spring Boot.
+    <!-- Parent POM Spring Boot. Fournit la configuration de base pour tous les projets Spring Boot.
          Gère les versions compatibles de toutes les dépendances Spring (pas besoin de spécifier les versions).
          Configure les plugins Maven par défaut (compilation Java 17, encodage UTF-8, etc.).
          Simplifie grandement la gestion des dépendances et évite les conflits de versions. -->
@@ -143,6 +143,23 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.12.3</version>
             <scope>runtime</scope>
+        </dependency>
+
+        <!-- Spring AOP: Support pour la programmation orientée aspect (AOP)
+             Utilisé pour créer des aspects personnalisés qui interceptent les méthodes.
+             Dans notre cas : vérification automatique de la propriété des todos avec @CheckTodoOwnership.
+
+             AOP permet de :
+             - Séparer les préoccupations transversales (sécurité, logging, etc.)
+             - Éviter la duplication de code
+             - Appliquer des comportements de manière déclarative (via annotations)
+
+             Exemple : @CheckTodoOwnership sur une méthode → l'aspect vérifie automatiquement
+             que le todo appartient à l'utilisateur avant d'exécuter la méthode. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+            <version>3.2.1</version>
         </dependency>
 
     </dependencies>

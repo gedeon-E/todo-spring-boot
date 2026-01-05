@@ -9,6 +9,6 @@ import java.util.List;
 public interface TodoService {
     BasicTodo createTodo(CreateTodoRequest createTodoRequest, Long userId);
     List<BasicTodo> getAllTodosOfUser(Long userId);
-    BasicTodo updateTodo(Long id, UpdateTodoRequest updateTodo, Long userId);
-    void deleteTodo(Long id, Long userId);
+    BasicTodo updateTodo(Long id, UpdateTodoRequest updateTodo);
+    void deleteTodo(Long id);
 }

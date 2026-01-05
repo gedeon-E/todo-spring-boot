@@ -46,9 +46,9 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public BasicTodo updateTodo(Long id, UpdateTodoRequest updateTodo, Long userId){
-        Todo todo = todoRepository.findByIdAndUserIdNotDeleted(id, userId)
-                .orElseThrow(() -> new RuntimeException("Todo non trouvé ou vous n'avez pas la permission de le modifier"));
+    public BasicTodo updateTodo(Long id, UpdateTodoRequest updateTodo){
+        Todo todo = todoRepository.findByIdNotDeleted(id)
+                .orElseThrow(() -> new RuntimeException("Todo non trouvé"));
         
         if (updateTodo.getNote() != null) {
             todo.setNote(updateTodo.getNote());
@@ -66,9 +66,9 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    public void deleteTodo(Long id, Long userId){
-        Todo todo = todoRepository.findByIdAndUserIdNotDeleted(id, userId)
-                .orElseThrow(() -> new RuntimeException("Todo non trouvé ou vous n'avez pas la permission de le supprimer"));
+    public void deleteTodo(Long id){
+        Todo todo = todoRepository.findByIdNotDeleted(id)
+                .orElseThrow(() -> new RuntimeException("Todo non trouvé"));
         
         todo.setDeletedAt(java.time.LocalDateTime.now());
         todoRepository.save(todo);

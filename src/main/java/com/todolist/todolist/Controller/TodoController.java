@@ -3,6 +3,7 @@ package com.todolist.todolist.Controller;
 import com.todolist.todolist.Json.Todo.CreateTodoRequest;
 import com.todolist.todolist.Json.Todo.BasicTodo;
 import com.todolist.todolist.Json.Todo.UpdateTodoRequest;
+import com.todolist.todolist.Security.CheckTodoOwnership;
 import com.todolist.todolist.Service.TodoService;
 import com.todolist.todolist.Utils.AuthenticationUtils;
 import jakarta.validation.Valid;
@@ -31,15 +32,15 @@ public class TodoController {
         return todoService.createTodo(createTodoRequest, userId);
     }
 
+    @CheckTodoOwnership
     @PutMapping("/{id}")
     public BasicTodo updateTodo(@PathVariable Long id, @RequestBody UpdateTodoRequest updateTodo){
-        Long userId = authenticationUtils.getCurrentUserId();
-        return todoService.updateTodo(id, updateTodo, userId);
+        return todoService.updateTodo(id, updateTodo);
     }
 
+    @CheckTodoOwnership
     @DeleteMapping("/{id}")
     public void deleteTodo(@PathVariable Long id){
-        Long userId = authenticationUtils.getCurrentUserId();
-        todoService.deleteTodo(id, userId);
+        todoService.deleteTodo(id);
     }
 }
